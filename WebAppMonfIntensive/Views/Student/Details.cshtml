@@ -1,0 +1,18 @@
+﻿@model Student
+<!--Wait Model With type Student-->
+<!--Lossly Type View-->
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<div class="card" style="width:400px">
+    <img class="card-img-top" src="/Images/@Model.ImageUrl" alt="Card image">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Name</h4>
+        <p class="card-text">@Model.Address</p>
+        <a href="#" class="btn btn-primary">See Profile</a>
+    </div>
+</div>
+<a href="/student/all">Back To List</a>
+<!--protocol://domin/student/all-->

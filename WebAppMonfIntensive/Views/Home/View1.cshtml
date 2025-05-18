@@ -1,1 +1,41 @@
 ﻿<h1>Hello From My first View :) :)</h1>
+
+<style>
+    /* Css Code */
+    h1{
+        color:red;
+        background-color : yellow;
+    }
+</style>
+
+<script>
+    
+    console.log("Js Code");
+</script>
+
+<!--C# Code Using Razor Synatx-->
+<!--Block Of Coded (declare variable +operation +...)-->
+@{
+    int x = 10;
+    int y = x + 10;
+    <h1>Hello</h1>
+}
+<!--Inline Code (display C# Varaibles values inside HTML)-->
+<h3>@(x + y);</h3>
+
+<!--Server Side Condition Statment (if ,switch)-->
+@if (x > y){
+    <h3>X Greater Than Y</h3>
+}
+else
+{
+    <h3>Y = @y Creater Than X =@x</h3>
+}
+
+<!--Looping Statment (for -while -do while -foreach)-->
+<ul>
+    @for (int i = 1; i < 11; i++)
+    {
+        <li>@i</li>
+    }
+</ul>

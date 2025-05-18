@@ -1,0 +1,24 @@
+﻿@model List<Student>
+<!--I wait action send me List<student>-->
+
+
+
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Profile Image</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            @* <td>@item.ImageUrl</td> *@
+            <td>
+                <img src="~/Images/@item.ImageUrl" style="width:100px"/>
+            </td>
+        </tr>
+    }
+</table>
+

@@ -32,6 +32,7 @@ namespace WebAppMonfIntensive.Controllers
             //return
             return result;
         }
+       
         //Home/showView
         public ViewResult showView()
         {
@@ -40,9 +41,11 @@ namespace WebAppMonfIntensive.Controllers
             ViewResult result = new ViewResult();
             //fill data
             result.ViewName = "View1";
+            //name view different name action - view using by more than one action
             //return
             return result;
         }
+        
         //home/showMix?id=10&name=ahmed
         //home/showMix/10?name=ahmedd
         public IActionResult ShowMix(int id,string name)
