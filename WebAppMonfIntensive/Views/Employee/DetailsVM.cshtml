@@ -1,0 +1,22 @@
+﻿@model EmployeeWithMsgColorBranchListViewModel
+
+@* @using WebAppMonfIntensive.ViewModels
+@model EmployeeWithMsgColorBranchListViewModel *@
+
+
+@* @model WebAppMonfIntensive.ViewModels.EmployeeWithMsgColorBranchListViewModel *@
+@{
+    ViewData["Title"] = "DetailsVM";//set ????
+}
+
+<h1>DetailsVM</h1>
+
+<h2 style="color:@Model.Color">@Model.EmpName</h2>
+<h3>@Model.EmpId</h3>
+<h3>@(Model.Temp+10)</h3>
+<select class="form form-control">
+    @foreach (var item in Model.Branches)
+    {
+        <option>@item</option>
+    }
+</select>
