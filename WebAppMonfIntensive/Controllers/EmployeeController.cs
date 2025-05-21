@@ -21,6 +21,7 @@ namespace WebAppMonfIntensive.Controllers
             //Model ==> List<Employees>
         }
 
+        #region Details
         public IActionResult Details(int id) {
             //More extra  Info
             string msg = "Message FRom Action";
@@ -68,6 +69,54 @@ namespace WebAppMonfIntensive.Controllers
             //View  ==> DetailsVM
             //Model ==> EmployeeWithMsgColorBranchListViewModel
         }
+        #endregion
 
+        #region Edit
+        //Employee/Edit/1
+        public IActionResult Edit(int id)
+        {
+            Employee empFromDb = context.Employees.FirstOrDefault(e=>e.Id==id);
+            if (empFromDb != null)
+            {
+                //Declare ViewModel
+                EmployeeWithDeptListViewModel empVM = new();
+                //Mapping
+                empVM.Email = empFromDb.Email;
+                empVM.Id=empFromDb.Id;
+                empVM.Name=empFromDb.Name;
+                empVM.Salary=   empFromDb.Salary;
+                empVM.DepartmentID = empFromDb.DepartmentID;
+                empVM.ImageUrl= empFromDb.ImageUrl;
+
+                empVM.DeptList = context.Departments.ToList();
+                //Rerturn ViewModel
+                return View("Edit", empVM);//Model ==Employee
+            }
+            return NotFound();
+        }
+        //Employee/SaveEdit/1?Name=as&Email=&Salary=&ImageUrl=&DepartmentID=
+        [HttpPost]
+        public IActionResult SaveEdit(EmployeeWithDeptListViewModel EmpFromReq)//id
+        {
+            if (EmpFromReq.Name != null)
+            {
+                //old ref
+                Employee empFromDB = 
+                    context.Employees.FirstOrDefault(e => e.Id == EmpFromReq.Id);
+                //set new value
+                empFromDB.Name= EmpFromReq.Name;
+                empFromDB.Salary= EmpFromReq.Salary;
+                empFromDB.ImageUrl= EmpFromReq.ImageUrl;
+                empFromDB.DepartmentID= EmpFromReq.DepartmentID;
+                empFromDB.Email= EmpFromReq.Email;
+                //save changes
+                context.SaveChanges();
+                return RedirectToAction("Index", "Employee");
+            }
+
+            EmpFromReq.DeptList = context.Departments.ToList();
+            return View("Edit", EmpFromReq);
+        }
+        #endregion
     }
 }

@@ -15,6 +15,22 @@ namespace WebAppMonfIntensive.Controllers
          * 2) Can't be Static
          * 3) Can't be Overload only in one case
          */
+        //Get :Home/M1
+        [HttpGet]
+        public IActionResult M1()
+        {
+            return Content("M1 get");
+        }
+        //Post : Home/M!
+        [HttpPost]
+        public IActionResult M1(int age)
+        {
+            return Content("M1 Post");
+        }
+
+
+
+
 
         //Home/ShowMsg
         //public  string ShowMsg()

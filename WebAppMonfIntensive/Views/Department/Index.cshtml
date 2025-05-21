@@ -1,12 +1,14 @@
-﻿@model List<Employee>
+﻿@model List<Department> 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+<a href="/Department/New" class="btn btn-dark">New</a>
+
 <table class="table table-bordered table-hover">
     <tr>
-        <th>Id</th>
+        <th>ID</th>
         <th>Name</th>
         <th></th>
     </tr>
@@ -15,10 +17,7 @@
         <tr>
             <td>@item.Id</td>
             <td>@item.Name</td>
-            <td>
-                <a href="/Employee/Edit/@item.Id">Edit</a>
-            </td>
         </tr>
-
     }
 </table>
+
