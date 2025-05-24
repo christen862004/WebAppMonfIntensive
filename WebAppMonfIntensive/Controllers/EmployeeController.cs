@@ -22,12 +22,14 @@ namespace WebAppMonfIntensive.Controllers
         }
 
         #region NEw
+      
         public IActionResult New()
         {
             ViewBag.DeptList = context.Departments.ToList();
             return View("New");
         }
-        [HttpPost]
+        [HttpPost]//Employee/SAveNEw :Post
+        [ValidateAntiForgeryToken]//prevent any forieng req.
         public IActionResult SaveNew(Employee empFromRequest)
         {
             if(empFromRequest.Name != null && empFromRequest.Salary>6000)

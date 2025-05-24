@@ -1,6 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
+    Layout = "_MyLayout";//override default layout
+    //remove nay layout Layout = null;
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+<!--To Wriet in HEad section-->
+@section FootSection{
+    Heelo From View To Foot Sectoin
+}
+
+@section HeadSection{
+    <!--any validd html +css+ JS +c# Code-->
+    Hello From View To HeadSection
+}
