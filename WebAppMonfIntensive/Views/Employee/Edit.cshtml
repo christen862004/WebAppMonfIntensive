@@ -8,13 +8,25 @@
 <form method="post" action="/Employee/SaveEdit/@Model.Id">
     @* <input type="hidden" name="Id" value="@Model.Id" />     *@
     <div>
+        <!--Pure HTML Tags-->
+        @* <label>User Email</label>
+        <input type="email" class="form form-control" name="Email" id="Email" value="@Model.Email" /> *@
+        <!--Pure C# MThods using HTML HElpers  Supported .Net + .Net Core-->
+        @* @Html.LabelFor(e=>e.Email) *@
+        @* @Html.TextBoxFor(e => e.Email, new { style = "color:red;",@class="form form-control" }) *@
+        @* @Html.EditorFor(e=>e.Email) *@
+
+        <!--Tag Helper  (C# + HTML)-->
+        <label asp-for="Email"></label>
+        <input class="form form-control" asp-for="Email" />
+    </div>
+    <hr />
+    
+    <div>
         <label>Name</label>
         <input type="text" class="form form-control" name="Name" id="Name" value="@Model.Name" />
     </div>
-    <div>
-        <label>Email</label>
-        <input type="email" class="form form-control" name="Email" id="Email" value="@Model.Email" />
-    </div>
+    
     <div>
         <label>Salary</label>
         <input type="number" class="form form-control" name="Salary" id="Salary" value="@Model.Salary" />
@@ -44,4 +56,16 @@
     <input type="submit" value="Save" class="btn btn-success" />
 </form>
 
-<a href="/Employee/Index">Back To List</a>
+<a href="/Employee/Index">Back To List</a><br />
+@Html.ActionLink("Back To List 2","Index","Employee")<br />
+@Html.ActionLink("Back To List 2","Index")<br />
+<a asp-action="Index" asp-controller="Employee">Back to List3</a>
+<!-------------->
+<hr />
+<a href="/Employee/details/@Model.Id?name=@Model.Name">Details</a><br/>
+@Html.ActionLink("Details Link", "details","Employee",new{id=Model.Id,name=Model.Name},new {@class="btn btn-success"})<br />
+@Html.ActionLink("Details Link", "details",new{id=Model.Id,name=Model.Name},new {@class="btn btn-success"})
+<a asp-action="Details" asp-controller="Employee" 
+asp-route-id="@Model.Id"
+asp-route-name="@Model.Name" asp-route-age="12">Details</a>
+<hr />

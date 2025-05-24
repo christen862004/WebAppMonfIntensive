@@ -1,9 +1,13 @@
-﻿namespace WebAppMonfIntensive.Models
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace WebAppMonfIntensive.Models
 {
     public class MyController
     {
         public void fun1(Action c)
         {
+            //IEnumerable<Department> departments = new List<Department>();
+            //IEnumerable<SelectListItem> items = departments;
             int x = 10;
             c();
             x = 10;

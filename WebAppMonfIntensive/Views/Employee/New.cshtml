@@ -1,0 +1,39 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "New";
+    //Explicit casintng from List<department> to List<SelectListItem>
+    SelectList deptList = new SelectList(ViewBag.DeptList, "Id","Name");
+    // <option value="@deptItem.Id" selected>@deptItem.Name</option>
+}
+
+<h1>New</h1>
+
+<form asp-action="SaveNew" asp-controller="Employee" method="post">
+    @* asp-route-id="@Model.Id" *@
+    <div>
+        <label asp-for="Name"></label>
+        <input class="form form-control" asp-for="Name" />
+    </div>
+     <div>
+        <label asp-for="Email"></label>
+        <input class="form form-control" asp-for="Email" />
+    </div>
+     <div>
+        <label asp-for="Salary"></label>
+        <input class="form form-control" asp-for="Salary" />
+    </div>
+     <div>
+        <label asp-for="ImageUrl"></label>
+        <input class="form form-control" asp-for="ImageUrl" />
+    </div>
+     <div>
+        <label asp-for="DepartmentID"></label>
+        @* <input class="form form-control" asp-for="DepartmentID" /> *@
+        <select class="form form-control" asp-items="@deptList" asp-for="DepartmentID">
+            <option value="0">-- Select Department --</option>
+        </select>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Create"/>
+
+</form>
+<a asp-action="Index" asp-controller="Employee">back To List</a>

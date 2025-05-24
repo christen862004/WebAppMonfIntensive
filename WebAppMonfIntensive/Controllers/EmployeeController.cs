@@ -21,8 +21,32 @@ namespace WebAppMonfIntensive.Controllers
             //Model ==> List<Employees>
         }
 
+        #region NEw
+        public IActionResult New()
+        {
+            ViewBag.DeptList = context.Departments.ToList();
+            return View("New");
+        }
+        [HttpPost]
+        public IActionResult SaveNew(Employee empFromRequest)
+        {
+            if(empFromRequest.Name != null && empFromRequest.Salary>6000)
+            {
+                //add
+                context.Employees.Add(empFromRequest);
+                context.SaveChanges();
+                return RedirectToAction("Index","Employee");
+            }
+            ViewData["DeptList"] = context.Departments.ToList();
+            return View("New", empFromRequest);
+        }
+
+        #endregion
+
+
         #region Details
-        public IActionResult Details(int id) {
+        //Employee/details/1?name=Ahmed
+        public IActionResult Details(int id,string name) {
             //More extra  Info
             string msg = "Message FRom Action";
             int Temp = 30;
