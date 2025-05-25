@@ -21,8 +21,18 @@ namespace WebAppMonfIntensive.Controllers
             //Model ==> List<Employees>
         }
 
+        //Employee/GreaterThan?Salary=80000&Name=Ahmed
+        public IActionResult GreaterThan(int Salary,string Name)
+       {
+            if(Salary>7000)
+            
+                return Json(true);
+            else
+                return Json(false);
+        }
+
         #region NEw
-      
+
         public IActionResult New()
         {
             ViewBag.DeptList = context.Departments.ToList();
@@ -36,10 +46,17 @@ namespace WebAppMonfIntensive.Controllers
             //if(empFromRequest.Name != null && empFromRequest.Salary>6000)//conddtion write at action scop
             if(ModelState.IsValid==true)//valiadtion server side
             {
-                //add
-                context.Employees.Add(empFromRequest);
-                context.SaveChanges();
-                return RedirectToAction("Index","Employee");
+                try
+                {
+                    context.Employees.Add(empFromRequest);
+                    context.SaveChanges();
+                    return RedirectToAction("Index", "Employee");
+                }catch(Exception ex)
+                {
+                    //handel send exption msg view 
+                    //ModelState.AddModelError("DepartmentID", "Please Select Department");
+                    ModelState.AddModelError("erro1", ex.InnerException.Message);
+                }
             }
             ViewData["DeptList"] = context.Departments.ToList();
             return View("New", empFromRequest);
@@ -96,6 +113,7 @@ namespace WebAppMonfIntensive.Controllers
             return View("Edit", EmpFromReq);
         }
         #endregion
+
         #region Details
         //Employee/details/1?name=Ahmed
         public IActionResult Details(int id,string name) {
