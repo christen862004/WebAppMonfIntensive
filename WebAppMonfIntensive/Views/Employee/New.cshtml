@@ -10,21 +10,29 @@
 
 <form asp-action="SaveNew" asp-controller="Employee" method="post">
     @* asp-route-id="@Model.Id" *@
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div>
         <label asp-for="Name"></label>
-        <input class="form form-control" asp-for="Name" />
+        <input class="form form-control" asp-for="Name" required maxlength="50" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
      <div>
         <label asp-for="Email"></label>
         <input class="form form-control" asp-for="Email" />
+        <span  asp-validation-for="Email" class="text-danger"></span>
+
     </div>
      <div>
         <label asp-for="Salary"></label>
         <input class="form form-control" asp-for="Salary" />
+        <span asp-validation-for="Salary" class="text-danger"></span>
+
     </div>
      <div>
         <label asp-for="ImageUrl"></label>
         <input class="form form-control" asp-for="ImageUrl" />
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+
     </div>
      <div>
         <label asp-for="DepartmentID"></label>
@@ -35,8 +43,20 @@
             <option value="0">-- Select Department --</option>
        
         </select>
+        <span asp-validation-for="DepartmentID" class="text-danger"></span>
+
     </div>
     <input type="submit" class="btn btn-primary" value="Create"/>
 
 </form>
 <a asp-action="Index" asp-controller="Employee">back To List</a>
+<!--Client Side Validdation import 3 Jquery PAckage-->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+
+
+

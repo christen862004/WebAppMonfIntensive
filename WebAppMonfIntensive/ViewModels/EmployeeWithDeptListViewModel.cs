@@ -20,6 +20,7 @@ namespace WebAppMonfIntensive.ViewModels
 
 
         //DeptList
-        public List<Department> DeptList { get; set; }
+        //[Required]
+        public List<Department>? DeptList { get; set; }
     }
 }

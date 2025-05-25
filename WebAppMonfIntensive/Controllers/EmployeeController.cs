@@ -28,11 +28,13 @@ namespace WebAppMonfIntensive.Controllers
             ViewBag.DeptList = context.Departments.ToList();
             return View("New");
         }
+    
         [HttpPost]//Employee/SAveNEw :Post
         [ValidateAntiForgeryToken]//prevent any forieng req.
         public IActionResult SaveNew(Employee empFromRequest)
         {
-            if(empFromRequest.Name != null && empFromRequest.Salary>6000)
+            //if(empFromRequest.Name != null && empFromRequest.Salary>6000)//conddtion write at action scop
+            if(ModelState.IsValid==true)//valiadtion server side
             {
                 //add
                 context.Employees.Add(empFromRequest);
@@ -46,6 +48,54 @@ namespace WebAppMonfIntensive.Controllers
         #endregion
 
 
+        #region Edit
+        //Employee/Edit/1
+        public IActionResult Edit(int id)
+        {
+            Employee empFromDb = context.Employees.FirstOrDefault(e=>e.Id==id);
+            if (empFromDb != null)
+            {
+                //Declare ViewModel
+                EmployeeWithDeptListViewModel empVM = new();
+                //Mapping
+                empVM.Email = empFromDb.Email;
+                empVM.Id=empFromDb.Id;
+                empVM.Name=empFromDb.Name;
+                empVM.Salary=   empFromDb.Salary;
+                empVM.DepartmentID = empFromDb.DepartmentID;
+                empVM.ImageUrl= empFromDb.ImageUrl;
+
+                empVM.DeptList = context.Departments.ToList();
+                //Rerturn ViewModel
+                return View("Edit", empVM);//Model ==Employee
+            }
+            return NotFound();
+        }
+      
+        //Employee/SaveEdit/1?Name=as&Email=&Salary=&ImageUrl=&DepartmentID=
+        [HttpPost]
+        public IActionResult SaveEdit(EmployeeWithDeptListViewModel EmpFromReq)//id
+        {
+            if (EmpFromReq.Name != null)
+            {
+                //old ref
+                Employee empFromDB = 
+                    context.Employees.FirstOrDefault(e => e.Id == EmpFromReq.Id);
+                //set new value
+                empFromDB.Name= EmpFromReq.Name;
+                empFromDB.Salary= EmpFromReq.Salary;
+                empFromDB.ImageUrl= EmpFromReq.ImageUrl;
+                empFromDB.DepartmentID= EmpFromReq.DepartmentID;
+                empFromDB.Email= EmpFromReq.Email;
+                //save changes
+                context.SaveChanges();
+                return RedirectToAction("Index", "Employee");
+            }
+
+            EmpFromReq.DeptList = context.Departments.ToList();
+            return View("Edit", EmpFromReq);
+        }
+        #endregion
         #region Details
         //Employee/details/1?name=Ahmed
         public IActionResult Details(int id,string name) {
@@ -97,53 +147,6 @@ namespace WebAppMonfIntensive.Controllers
         }
         #endregion
 
-        #region Edit
-        //Employee/Edit/1
-        public IActionResult Edit(int id)
-        {
-            Employee empFromDb = context.Employees.FirstOrDefault(e=>e.Id==id);
-            if (empFromDb != null)
-            {
-                //Declare ViewModel
-                EmployeeWithDeptListViewModel empVM = new();
-                //Mapping
-                empVM.Email = empFromDb.Email;
-                empVM.Id=empFromDb.Id;
-                empVM.Name=empFromDb.Name;
-                empVM.Salary=   empFromDb.Salary;
-                empVM.DepartmentID = empFromDb.DepartmentID;
-                empVM.ImageUrl= empFromDb.ImageUrl;
-
-                empVM.DeptList = context.Departments.ToList();
-                //Rerturn ViewModel
-                return View("Edit", empVM);//Model ==Employee
-            }
-            return NotFound();
-        }
-        //Employee/SaveEdit/1?Name=as&Email=&Salary=&ImageUrl=&DepartmentID=
-        [HttpPost]
-        public IActionResult SaveEdit(EmployeeWithDeptListViewModel EmpFromReq)//id
-        {
-            if (EmpFromReq.Name != null)
-            {
-                //old ref
-                Employee empFromDB = 
-                    context.Employees.FirstOrDefault(e => e.Id == EmpFromReq.Id);
-                //set new value
-                empFromDB.Name= EmpFromReq.Name;
-                empFromDB.Salary= EmpFromReq.Salary;
-                empFromDB.ImageUrl= EmpFromReq.ImageUrl;
-                empFromDB.DepartmentID= EmpFromReq.DepartmentID;
-                empFromDB.Email= EmpFromReq.Email;
-                //save changes
-                context.SaveChanges();
-                return RedirectToAction("Index", "Employee");
-            }
-
-            EmpFromReq.DeptList = context.Departments.ToList();
-            return View("Edit", EmpFromReq);
-        }
-        #endregion
     }
 }
 
