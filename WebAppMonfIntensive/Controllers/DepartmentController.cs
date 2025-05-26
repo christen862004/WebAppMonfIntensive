@@ -1,14 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
 using WebAppMonfIntensive.Models;
+using WebAppMonfIntensive.Repository;
 
 namespace WebAppMonfIntensive.Controllers
 {
     public class DepartmentController : Controller
     {
-        ITIContext context = new ITIContext();
+        // ITIContext context = new ITIContext();
+        DepartmentRepository DeptRepository;
+        public DepartmentController()
+        {
+            DeptRepository = new DepartmentRepository();
+        }
         public IActionResult Index()
         {
-            List<Department> DeptList = context.Departments.ToList();
+            List<Department> DeptList = DeptRepository.GetAll();
             return View("Index",DeptList);
             //view : Index 
             //Model: List<Department>
@@ -26,8 +33,8 @@ namespace WebAppMonfIntensive.Controllers
         {
             if (deptFromReq.Name != null && deptFromReq.ManagerName != null)
             {
-                context.Departments.Add(deptFromReq);
-                context.SaveChanges();
+                DeptRepository.Add(deptFromReq);
+                DeptRepository.Save();
                 return RedirectToAction("Index", "Department");//Problem
             }
             return View("New", deptFromReq);//view NAme "New" + Model ==>Department

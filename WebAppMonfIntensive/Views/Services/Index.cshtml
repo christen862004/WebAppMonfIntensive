@@ -1,0 +1,12 @@
+﻿@using WebAppMonfIntensive.Repository
+@inject ITestREpository TestREpo
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<h3>Service Id From View</h3>
+<h4>@TestREpo.Id</h4>
+<hr />
+<h3>Service Id From Controller</h3>
+<h4>@ViewBag.Id</h4>

@@ -1,3 +1,6 @@
+using WebAppMonfIntensive.Models;
+using WebAppMonfIntensive.Repository;
+
 namespace WebAppMonfIntensive
 {
     public class Program
@@ -6,8 +9,20 @@ namespace WebAppMonfIntensive
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container. //Day8
+            // Add services to the container (IOC Container | Serviers Provider). //Day8
+            //1) Built in services and already register 122
+            
+            //2) Built in services Need To Register 313
             builder.Services.AddControllersWithViews();
+
+            //3) Custom Service and Need To Register  315
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<ITestREpository, TestRepository>();
+
+
+
+
 
             var app = builder.Build();
             #region Cusomt Mibleware

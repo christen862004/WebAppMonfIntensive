@@ -2,15 +2,84 @@
 
 namespace WebAppMonfIntensive.Models
 {
+
+    public interface ISort
+    {
+        void Sort(int[] arr);
+    }
+    public class BubbleSort:ISort
+    {
+        public void Sort(int[] arr)
+        {
+            //logic using BubbleSort Alg.
+        }
+    }
+    //extend
+    public class SelectSort:ISort
+    {
+        public void Sort(int[] arr) {
+        
+        }
+    }
+
+    public class ChrisSort : ISort
+    {
+        public void Sort(int[] arr)
+        {
+            
+        }
+    }
+
+    //DIP (hign level ==> low level class)& IOC 
+    public class MyList //depend sort on Bubble
+    {
+        int[] arr;
+        ISort sortAlg;//(null)declare sort alg using bubble
+        //dont create  but ask (constructor - fun parameter) give
+        public MyList(ISort _sortAlg)
+        {
+            arr = new int[10];
+            this.sortAlg = _sortAlg;
+           // sortAlg = new BubbleSort();//still using bubblesort
+        }
+
+        public void SortList()
+        {
+            sortAlg.Sort(arr);
+        }
+    }
+
     public class MyController
     {
+        public void fun3()
+        {
+            //lossly couple 
+            MyList l1=new MyList(new BubbleSort());
+            l1.SortList();//using BubbleSort
+           
+            MyList l2=new MyList(new SelectSort());
+            l2.SortList();//using selectsort
+
+            MyList l3=new MyList(new BubbleSort());
+
+        }
+
+
+
+
+
+
+
+
+
+
         public void fun1(Action c)
         {
             //IEnumerable<Department> departments = new List<Department>();
             //IEnumerable<SelectListItem> items = departments;
-            int x = 10;
-            c();
-            x = 10;
+            //int x = 10;
+            //c();
+            //x = 10;
 
         }
         public void fun2()
@@ -37,6 +106,17 @@ namespace WebAppMonfIntensive.Models
             set { data = value; }
         }
     }
+
+
+
+
+
+
+
+
+
+
+
 
     public class TestClass:List<string>
     {

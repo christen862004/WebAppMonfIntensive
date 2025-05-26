@@ -1,22 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAppMonfIntensive.Models;
+using WebAppMonfIntensive.Repository;
 using WebAppMonfIntensive.ViewModels;
 
 namespace WebAppMonfIntensive.Controllers
 {
+    //high level
     public class EmployeeController : Controller
     {
-        ITIContext context = new ITIContext();
-        public EmployeeController()
+        //low level (DIP |IOC)
+        IEmployeeRepository EmpRepository;
+        IDepartmentRepository DeptRepository;
+        //using Depency Inject DP
+        public EmployeeController
+            (IEmployeeRepository empRepo, IDepartmentRepository deptRepo)
         {
-            
+            EmpRepository = empRepo;
+            DeptRepository= deptRepo;
         }
         //Employee
         //Employee/Index
         public IActionResult Index()
         {
-            List<Employee> employees = context.Employees.ToList();
+            List<Employee> employees =EmpRepository.GetAll();
             return View("Index",employees);
             //Model ==> List<Employees>
         }
@@ -35,7 +42,7 @@ namespace WebAppMonfIntensive.Controllers
 
         public IActionResult New()
         {
-            ViewBag.DeptList = context.Departments.ToList();
+            ViewBag.DeptList = DeptRepository.GetAll();
             return View("New");
         }
     
@@ -43,13 +50,12 @@ namespace WebAppMonfIntensive.Controllers
         [ValidateAntiForgeryToken]//prevent any forieng req.
         public IActionResult SaveNew(Employee empFromRequest)
         {
-            //if(empFromRequest.Name != null && empFromRequest.Salary>6000)//conddtion write at action scop
             if(ModelState.IsValid==true)//valiadtion server side
             {
                 try
                 {
-                    context.Employees.Add(empFromRequest);
-                    context.SaveChanges();
+                    EmpRepository.Add(empFromRequest);
+                    EmpRepository.Save();
                     return RedirectToAction("Index", "Employee");
                 }catch(Exception ex)
                 {
@@ -58,7 +64,7 @@ namespace WebAppMonfIntensive.Controllers
                     ModelState.AddModelError("erro1", ex.InnerException.Message);
                 }
             }
-            ViewData["DeptList"] = context.Departments.ToList();
+            ViewData["DeptList"] = DeptRepository.GetAll();
             return View("New", empFromRequest);
         }
 
@@ -69,7 +75,7 @@ namespace WebAppMonfIntensive.Controllers
         //Employee/Edit/1
         public IActionResult Edit(int id)
         {
-            Employee empFromDb = context.Employees.FirstOrDefault(e=>e.Id==id);
+            Employee empFromDb = EmpRepository.GetById(id);
             if (empFromDb != null)
             {
                 //Declare ViewModel
@@ -82,7 +88,7 @@ namespace WebAppMonfIntensive.Controllers
                 empVM.DepartmentID = empFromDb.DepartmentID;
                 empVM.ImageUrl= empFromDb.ImageUrl;
 
-                empVM.DeptList = context.Departments.ToList();
+                empVM.DeptList = DeptRepository.GetAll();
                 //Rerturn ViewModel
                 return View("Edit", empVM);//Model ==Employee
             }
@@ -96,20 +102,22 @@ namespace WebAppMonfIntensive.Controllers
             if (EmpFromReq.Name != null)
             {
                 //old ref
-                Employee empFromDB = 
-                    context.Employees.FirstOrDefault(e => e.Id == EmpFromReq.Id);
+                Employee empFromDB = EmpRepository.GetById(EmpFromReq.Id);
+                   //new Employee();//empFromDB.Id=EmpFromReq.Id;
                 //set new value
+                
                 empFromDB.Name= EmpFromReq.Name;
                 empFromDB.Salary= EmpFromReq.Salary;
                 empFromDB.ImageUrl= EmpFromReq.ImageUrl;
                 empFromDB.DepartmentID= EmpFromReq.DepartmentID;
                 empFromDB.Email= EmpFromReq.Email;
+                EmpRepository.Edit(empFromDB);
                 //save changes
-                context.SaveChanges();
+                EmpRepository.Save();
                 return RedirectToAction("Index", "Employee");
             }
 
-            EmpFromReq.DeptList = context.Departments.ToList();
+            EmpFromReq.DeptList = DeptRepository.GetAll();
             return View("Edit", EmpFromReq);
         }
         #endregion
@@ -131,7 +139,7 @@ namespace WebAppMonfIntensive.Controllers
             ViewBag.Age = 30;//==> ViewData["Age"]=30
             ViewBag.Color = "blue";
 
-            Employee employee = context.Employees.FirstOrDefault(e => e.Id == id);
+            Employee employee = EmpRepository.GetById(id);
             return View("Details", employee);
         }
 
@@ -142,7 +150,7 @@ namespace WebAppMonfIntensive.Controllers
             
             List<string> branches = new() { "Alex", "New Capital", "Samrt", "Monofia" };
 
-            Employee empModel = context.Employees.FirstOrDefault(e => e.Id == id);
+            Employee empModel = EmpRepository.GetById(id);
 
 
 
