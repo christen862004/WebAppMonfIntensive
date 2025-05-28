@@ -8,10 +8,10 @@ namespace WebAppMonfIntensive.Controllers
     public class DepartmentController : Controller
     {
         // ITIContext context = new ITIContext();
-        DepartmentRepository DeptRepository;
-        public DepartmentController()
+        IDepartmentRepository DeptRepository;
+        public DepartmentController(IDepartmentRepository deptRepo)
         {
-            DeptRepository = new DepartmentRepository();
+            DeptRepository = deptRepo;// new DepartmentRepository();
         }
         public IActionResult Index()
         {

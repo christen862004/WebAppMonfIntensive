@@ -9,6 +9,7 @@ namespace WebAppMonfIntensive.Controllers
     //high level
     public class EmployeeController : Controller
     {
+        int counter;
         //low level (DIP |IOC)
         IEmployeeRepository EmpRepository;
         IDepartmentRepository DeptRepository;

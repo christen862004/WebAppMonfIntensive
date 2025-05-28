@@ -5,9 +5,10 @@ namespace WebAppMonfIntensive.Repository
     public class EmployeeRepository :IEmployeeRepository
     {
         ITIContext context;
-        public EmployeeRepository()
+        public EmployeeRepository(ITIContext _context)//injection
         {
-            context = new ITIContext();
+            context = _context;
+            //context = new ITIContext(); dont create context but ask "injection"
         }
         //Single reposibility
         public void Add(Employee obj)

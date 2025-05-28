@@ -10,16 +10,17 @@ namespace WebAppMonfIntensive.Models
 
         public ITIContext():base()
         {
-            
+            //call OnConfiguring
         }
-
-        public ITIContext(DbContextOptions<ITIContext> options):base(options)
+        //option ==>appsetting
+        public ITIContext(DbContextOptions<ITIContext> options) : base(options)
         {
-                
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=M3M;Integrated Security=True;Encrypt=False");
+            optionsBuilder.UseSqlServer
+                ("Data Source=.;Initial Catalog=M3M;Integrated Security=True;Encrypt=False");
             base.OnConfiguring(optionsBuilder);
         }
         //DBContextOptions

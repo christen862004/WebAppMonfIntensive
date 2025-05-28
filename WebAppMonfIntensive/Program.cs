@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using WebAppMonfIntensive.Models;
 using WebAppMonfIntensive.Repository;
 
@@ -14,15 +16,18 @@ namespace WebAppMonfIntensive
             
             //2) Built in services Need To Register 313
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ITIContext>(optionBuilder => {
+                optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
+            });
+            builder.Services.AddSession(option =>
+            {
+                option.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
 
             //3) Custom Service and Need To Register  315
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<ITestREpository, TestRepository>();
-
-
-
-
 
             var app = builder.Build();
             #region Cusomt Mibleware
@@ -57,13 +62,33 @@ namespace WebAppMonfIntensive
             }
             app.UseStaticFiles(); //req ==> wwwroot /imags/m.png
 
-            app.UseRouting();
-
+            app.UseRouting(); //Security /Employee/Index
+           
+            app.UseSession();
+            
             app.UseAuthorization();//not active 
+            #region Custom Route
+            //Staff "'DEcalre  Exceute"/r1/10
+            //app.MapControllerRoute("Route1", "r1/{age:int:range(20,60)}/{name?}", new
+            //{
+            //    controller="Route",action="Method1"
+            //});
+            //r1/MEthod1
+            //r1/MEthod2
+            //r1
+            //app.MapControllerRoute("Route1", "{controller=Route}/{action=Method1}/{id?}");
+
+            //app.MapControllerRoute("Route2", "r2", new
+            //{
+            //    controller = "Route",
+            //    action = "Method2"
+            //});
+
+            #endregion
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Employee}/{action=Index}/{id?}");
             #endregion
             app.Run();
         }

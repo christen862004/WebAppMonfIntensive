@@ -5,11 +5,13 @@ namespace WebAppMonfIntensive.Repository
 {
     public class DepartmentRepository : IDepartmentRepository
     {
-        ITIContext context;
-        public DepartmentRepository()
+        private readonly ITIContext context;
+
+        public DepartmentRepository(ITIContext context)
         {
-            context = new ITIContext();
+            this.context = context;
         }
+
         //CRUD ==>Model
         public void Add(Department obj)
         {
