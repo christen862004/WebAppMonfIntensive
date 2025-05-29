@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAppMonfIntensive.Models;
 using WebAppMonfIntensive.Repository;
@@ -7,6 +8,7 @@ using WebAppMonfIntensive.ViewModels;
 namespace WebAppMonfIntensive.Controllers
 {
     //high level
+    [Authorize]
     public class EmployeeController : Controller
     {
         int counter;
@@ -100,6 +102,15 @@ namespace WebAppMonfIntensive.Controllers
         [HttpPost]
         public IActionResult SaveEdit(EmployeeWithDeptListViewModel EmpFromReq)//id
         {
+            //if(Request.Method=="POST")
+            //{
+            //    //execute
+            //}
+            //else
+            //{
+            //    return NotFound();
+            //}
+
             if (EmpFromReq.Name != null)
             {
                 //old ref

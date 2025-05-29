@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAppMonfIntensive.Models
 {
-    public class ITIContext:DbContext
+    public class ITIContext:IdentityDbContext<ApplicationUser>
     {
         //Class ==>Table
         public DbSet<Employee> Employees { get; set; }

@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using WebAppMonfIntensive.Filtters;
 using WebAppMonfIntensive.Models;
 using WebAppMonfIntensive.Repository;
 
@@ -13,12 +15,25 @@ namespace WebAppMonfIntensive
 
             // Add services to the container (IOC Container | Serviers Provider). //Day8
             //1) Built in services and already register 122
-            
+
             //2) Built in services Need To Register 313
+            //builder.Services.AddControllersWithViews(option => {
+            //    option.Filters.Add(new HandelErrorAttribute());//Global Application Filtter
+            //});
+            
             builder.Services.AddControllersWithViews();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+                options =>
+                {
+                    options.Password.RequiredLength = 4;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                }).AddEntityFrameworkStores<ITIContext>();
+           
             builder.Services.AddDbContext<ITIContext>(optionBuilder => {
                 optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
+
             builder.Services.AddSession(option =>
             {
                 option.IdleTimeout = TimeSpan.FromMinutes(30);

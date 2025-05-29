@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
 using WebAppMonfIntensive.Models;
 using WebAppMonfIntensive.Repository;
 
 namespace WebAppMonfIntensive.Controllers
 {
+    //[Authorize]
     public class DepartmentController : Controller
     {
         // ITIContext context = new ITIContext();
@@ -13,6 +16,7 @@ namespace WebAppMonfIntensive.Controllers
         {
             DeptRepository = deptRepo;// new DepartmentRepository();
         }
+       // [AllowAnonymous]//defualt filtter
         public IActionResult Index()
         {
             List<Department> DeptList = DeptRepository.GetAll();
