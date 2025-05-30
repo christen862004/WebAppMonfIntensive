@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebAppMonfIntensive.Models;
 using WebAppMonfIntensive.ViewModels;
 
@@ -37,6 +38,9 @@ namespace WebAppMonfIntensive.Controllers
                 IdentityResult result=await userManager.CreateAsync(user,userFromREq.Password);//ad b
                 if (result.Succeeded)
                 {
+                    //assign user to Admin Role
+                    await userManager.AddToRoleAsync(user, "Admin");
+
                     //create cookie
                     await signInManager.SignInAsync(user, false);//cookie presitien or not
                     //redierct any action nee to authorize
@@ -69,7 +73,12 @@ namespace WebAppMonfIntensive.Controllers
                     bool found = await userManager.CheckPasswordAsync(userFromDB, userFromReq.Password);
                     if (found == true)
                     {
-                        await signInManager.SignInAsync(userFromDB,userFromReq.RememberMe);
+                        List<Claim> claims= new List<Claim>();
+                        claims.Add(new Claim("Address", userFromDB.Address));
+
+                        await signInManager.SignInWithClaimsAsync(userFromDB, userFromReq.RememberMe, claims);
+                        //await signInManager.SignInAsync(userFromDB,userFromReq.RememberMe);
+                        //id ,name ,email,role,Address
                         return RedirectToAction("Index", "Employee");
                     }
 
@@ -79,6 +88,7 @@ namespace WebAppMonfIntensive.Controllers
             return View("Login", userFromReq);
         }
         #endregion
+
         #region logout
         public async Task<IActionResult> Logout()
         {

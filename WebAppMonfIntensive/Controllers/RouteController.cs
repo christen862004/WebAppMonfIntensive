@@ -16,7 +16,9 @@ namespace WebAppMonfIntensive.Controllers
                 string name = User.Identity.Name;
 
                 Claim IdClaim= User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-                
+               
+                Claim AddClaim = User.Claims.FirstOrDefault(c => c.Type == "Address");
+
                 return Content($"Wlcome User Account Loged  {name} \t id={IdClaim.Value}");
             }
             return Content("Welcome Gust");

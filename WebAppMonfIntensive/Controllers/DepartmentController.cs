@@ -16,7 +16,8 @@ namespace WebAppMonfIntensive.Controllers
         {
             DeptRepository = deptRepo;// new DepartmentRepository();
         }
-       // [AllowAnonymous]//defualt filtter
+        // [AllowAnonymous]//defualt filtter
+        [Authorize(Roles ="Admin")]//you have cookie and with role Admin
         public IActionResult Index()
         {
             List<Department> DeptList = DeptRepository.GetAll();
